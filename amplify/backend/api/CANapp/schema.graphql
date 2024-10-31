@@ -1,0 +1,6 @@
+type CANData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  scan1: Int
+  scan2: Int
+  scan3: Int
+}

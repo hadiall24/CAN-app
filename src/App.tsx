@@ -1,36 +1,55 @@
 import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
-
-const client = generateClient<Schema>();
+import { CANData } from "./models"; // Ensure the path is correct
+import { DataStore } from "@aws-amplify/datastore";
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [data, setData] = useState<CANData[]>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+    const fetchData = async () => {
+      const dataList = await DataStore.query(CANData);
+      setData(dataList);
+    };
+
+    fetchData();
+
+    const subscription = DataStore.observe(CANData).subscribe(() => {
+      fetchData(); // Re-fetch data whenever there’s a change
     });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+  async function createData() {
+    const scan1 = parseFloat(window.prompt("Enter scan1 value") || "0");
+    const scan2 = parseFloat(window.prompt("Enter scan2 value") || "0");
+    const scan3 = parseFloat(window.prompt("Enter scan3 value") || "0");
+
+    await DataStore.save(
+      new CANData({
+        scan1,
+        scan2,
+        scan3,
+      })
+    );
   }
 
   return (
     <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
+      <h1>CAN Data</h1>
+      <button onClick={createData}>+ new</button>
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
+        {data.map((entry) => (
+          <li key={entry.id}>
+            Scan1: {entry.scan1}, Scan2: {entry.scan2}, Scan3: {entry.scan3}
+          </li>
         ))}
       </ul>
       <div>
-        🥳 App successfully hosted. Try creating a new todo.
+        🥳 App successfully hosted. Try creating a new data entry.
         <br />
         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
+          Review the next step of this tutorial.
         </a>
       </div>
     </main>
@@ -38,3 +57,4 @@ function App() {
 }
 
 export default App;
+

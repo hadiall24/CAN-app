@@ -1,0 +1,29 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-canapp-dev-798f0-authRole",
+      "UnauthRoleArn": "arn:aws:iam::122610490610:role/amplify-canapp-dev-798f0-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::122610490610:role/amplify-canapp-dev-798f0-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-canapp-dev-798f0-deployment",
+      "UnauthRoleName": "amplify-canapp-dev-798f0-unauthRole",
+      "StackName": "amplify-canapp-dev-798f0",
+      "StackId": "arn:aws:cloudformation:us-east-2:122610490610:stack/amplify-canapp-dev-798f0/e0e55e10-966b-11ef-9ce4-028e9c79b3d7",
+      "AmplifyAppId": "d38johpjwrita5"
+    },
+    "categories": {
+      "auth": {
+        "canappc3467947": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d38johpjwrita5",
+          "type": "manual"
+        }
+      },
+      "api": {
+        "CANapp": {}
+      }
+    }
+  }
+}
